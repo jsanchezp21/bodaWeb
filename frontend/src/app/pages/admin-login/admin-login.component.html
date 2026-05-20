@@ -1,0 +1,19 @@
+<main class="page narrow">
+  <section class="card">
+    <h1>Panel privado</h1>
+    <p class="muted">Acceso solo para ver respuestas, ordenarlas y exportarlas.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label>
+        Email
+        <input type="email" formControlName="email" />
+      </label>
+      <label>
+        Contraseña
+        <input type="password" formControlName="password" />
+      </label>
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Entrando...' : 'Entrar' }}</button>
+    </form>
+  </section>
+</main>

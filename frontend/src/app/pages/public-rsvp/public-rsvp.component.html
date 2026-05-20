@@ -1,0 +1,176 @@
+<div class="intro-loader" [class.hidden]="!showIntro()">
+  <div class="loader-card">
+    <svg class="heart-line" viewBox="0 0 100 92" aria-hidden="true">
+      <path d="M50 84 C 20 58, 5 42, 11 24 C 16 8, 36 7, 50 25 C 64 7, 84 8, 89 24 C 95 42, 80 58, 50 84 Z" />
+    </svg>
+    <h1>Andrea & Jesús</h1>
+    <p>29 · 08 · 2026</p>
+  </div>
+</div>
+
+<audio #backgroundMusic src="assets/audio/romantic-instrumental.wav" loop preload="auto"></audio>
+<button
+  type="button"
+  class="music-toggle"
+  [class.playing]="musicEnabled()"
+  (click)="toggleMusic()"
+  [attr.aria-label]="musicEnabled() ? 'Pausar música' : 'Activar música'">
+  <span class="music-note">♪</span>
+  <span class="music-text">{{ musicEnabled() ? 'Pausar música' : 'Música' }}</span>
+</button>
+
+<header class="hero wedding-hero">
+  <div class="hero-copy">
+    <p class="eyebrow">Nos casamos</p>
+    <h1>{{ environment.coupleNames }}</h1>
+    <p class="hero-date">{{ environment.weddingDateText }} · {{ environment.weddingTimeText }}</p>
+    <p class="hero-quote">Hay caminos que se cruzan por vocación y otros por destino. El nuestro se encontró para siempre.</p>
+    <a class="button-link" href="#rsvp">Confirmar asistencia</a>
+  </div>
+  <div class="hero-photo-wrap">
+    <img src="assets/images/hero.jpeg" alt="Andrea y Jesús" class="hero-photo" />
+  </div>
+</header>
+
+<main class="page wedding-page">
+  <section class="card countdown-card">
+    <p class="eyebrow">Cuenta atrás</p>
+    <div class="countdown-grid">
+      <div><strong>{{ countdown().days }}</strong><span>Días</span></div>
+      <div><strong>{{ countdown().hours }}</strong><span>Horas</span></div>
+      <div><strong>{{ countdown().minutes }}</strong><span>Minutos</span></div>
+      <div><strong>{{ countdown().seconds }}</strong><span>Segundos</span></div>
+    </div>
+  </section>
+
+  <section class="card story-card">
+    <div class="story-photo">
+      <img src="assets/images/history.jpeg" alt="Andrea y Jesús en el festival Summer Story" />
+    </div>
+    <div class="story-text">
+      <p class="eyebrow">Nuestra historia</p>
+      <h2>Donde todo empezó</h2>
+      <p>A veces, la vida tiene formas curiosas de sorprenderte, de cruzar caminos sin previo aviso y de convertir lo cotidiano en algo extraordinario.</p>
+      <p>El 17 de junio de 2022, en medio de la música, las luces y la energía del festival Summer Story, comenzó nuestra historia. No fue algo planeado, ni buscado; simplemente, por esas casualidades que parecen insignificantes pero no lo son, coincidimos en el mismo grupo para ir juntos al festival. Entre risas, canciones y momentos compartidos, algo empezó a tomar forma sin que nos diéramos cuenta.</p>
+      <p>Dicen que cuando los astros se alinean, todo fluye de una manera especial… y aquel día, sin duda, lo hicieron. Lo que comenzó como un encuentro casual se convirtió en el inicio de algo único, de una conexión que creció entre acordes y emociones.</p>
+      <p>Desde entonces, cada recuerdo nos lleva de vuelta a ese instante en el que, sin saberlo, nuestras vidas empezaron a caminar juntas.</p>
+    </div>
+  </section>
+
+  <section class="card two-columns details-card">
+    <div>
+      <p class="eyebrow">Ceremonia</p>
+      <h2>{{ environment.churchName }}</h2>
+      <p>Os esperamos a las <strong>18:00h</strong> para vivir juntos el momento más especial.</p>
+      <a class="button-link secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Bas%C3%ADlica%20de%20la%20Macarena%2C%20Sevilla">Cómo llegar</a>
+    </div>
+    <div>
+      <p class="eyebrow">Celebración</p>
+      <h2>{{ environment.venueName }}</h2>
+      <p>Después seguiremos celebrando con cena, baile y muchas ganas de disfrutar.</p>
+      <a class="button-link secondary" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&query=Hacienda%20de%20Or%C3%A1n%2C%20Utrera%2C%20Sevilla">Ir al convite</a>
+    </div>
+  </section>
+
+  <section class="card invitation-style">
+    <img src="assets/images/invitation.jpeg" alt="Invitación de boda" />
+    <div>
+      <p class="eyebrow">Inspirado en nuestra invitación</p>
+      <h2>Elegante, sencillo y con mucho verde</h2>
+      <p>La web seguirá la misma línea: papel claro, detalles botánicos, tipografía delicada y un toque muy nuestro.</p>
+    </div>
+  </section>
+
+  <section id="rsvp" class="card rsvp-card">
+    <h2>Confirma tu asistencia</h2>
+    <p class="muted">Prometemos usar esta información solo para organizar la boda y que no falte comida, bus ni temazos.</p>
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="form">
+      <label>
+        Nombre y apellidos
+        <input formControlName="fullName" placeholder="Ej. María García López" />
+      </label>
+
+      <fieldset>
+        <legend>¿Te apuntas al fiestón del año?</legend>
+        <label class="radio"><input type="radio" formControlName="attendance" value="yes" /> ¡Sí, voy preparando los zapatos de bailar!</label>
+        <label class="radio"><input type="radio" formControlName="attendance" value="no" /> No puedo ir, pero brindaré por vosotros desde la distancia</label>
+      </fieldset>
+
+      <label>
+        Número de acompañantes
+        <input type="number" min="0" max="10" formControlName="companionsCount" (input)="updateCompanions()" />
+      </label>
+
+      <div formArrayName="companions" class="companions" *ngIf="companions.length > 0">
+        <label *ngFor="let companion of companions.controls; let i = index" [formGroupName]="i">
+          Nombre y apellidos del acompañante {{ i + 1 }}
+          <input formControlName="fullName" placeholder="Nombre completo" />
+        </label>
+      </div>
+
+      <label>
+        ¿Necesitarás autobús para moverte sin preocupaciones?
+        <select formControlName="busOption">
+          <option value="round_trip">Sí, ida y vuelta</option>
+          <option value="only_go">Solo ida</option>
+          <option value="only_return">Solo vuelta</option>
+          <option value="no_bus">No necesito autobús</option>
+        </select>
+      </label>
+
+      <label>
+        Alergias o intolerancias alimenticias
+        <textarea formControlName="allergies" placeholder="Cuéntanos lo que debamos saber"></textarea>
+      </label>
+
+      <label>
+        ¿Tienes alguna preferencia alimentaria?
+        <select formControlName="foodPreference">
+          <option value="none">No</option>
+          <option value="vegetarian">Vegetariano/a</option>
+          <option value="vegan">Vegano/a</option>
+        </select>
+      </label>
+
+      <label>
+        ¿Qué canción no puede faltar para que lo demos todo?
+        <input formControlName="mustPlaySong" placeholder="Canción y artista" />
+      </label>
+
+      <p class="success" *ngIf="success()">¡Respuesta enviada! Mil gracias.</p>
+      <p class="error" *ngIf="error()">{{ error() }}</p>
+
+      <button type="submit" [disabled]="loading()">{{ loading() ? 'Enviando...' : 'Enviar respuesta' }}</button>
+    </form>
+  </section>
+
+  <section class="card gallery-card">
+    <div class="section-heading">
+      <p class="eyebrow">Galería</p>
+      <h2>Momentos juntos</h2>
+      <p class="muted">Una pequeña colección de recuerdos antes del gran día.</p>
+    </div>
+
+    <div class="carousel">
+      <button type="button" class="carousel-control left" (click)="previousSlide()" aria-label="Foto anterior">‹</button>
+      <img [src]="activeGalleryImage()" alt="Foto de Andrea y Jesús" />
+      <button type="button" class="carousel-control right" (click)="nextSlide()" aria-label="Foto siguiente">›</button>
+    </div>
+
+    <div class="gallery-dots">
+      <button
+        type="button"
+        *ngFor="let image of galleryImages; let i = index"
+        [class.active]="currentSlide() === i"
+        (click)="selectSlide(i)"
+        [attr.aria-label]="'Ver foto ' + (i + 1)">
+      </button>
+    </div>
+  </section>
+
+  <footer class="footer-card">
+    <p>Andrea & Jesús</p>
+    <span>29 · 08 · 2026</span>
+  </footer>
+</main>

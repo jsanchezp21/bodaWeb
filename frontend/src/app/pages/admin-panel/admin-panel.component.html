@@ -1,0 +1,52 @@
+<main class="page admin">
+  <section class="card">
+    <div class="toolbar">
+      <div>
+        <h1>Respuestas de invitados</h1>
+        <p class="muted">Total: {{ responses().length }} respuestas</p>
+      </div>
+      <div class="actions">
+        <button type="button" (click)="exportExcel()">Exportar Excel</button>
+        <button type="button" class="secondary" (click)="logout()">Salir</button>
+      </div>
+    </div>
+
+    <div class="filters">
+      <input placeholder="Buscar por nombre, alergia, canción..." [ngModel]="search()" (ngModelChange)="search.set($event)" />
+      <select [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)">
+        <option value="createdAt">Ordenar por fecha</option>
+        <option value="fullName">Ordenar por nombre</option>
+        <option value="attendance">Ordenar por asistencia</option>
+        <option value="busOption">Ordenar por autobús</option>
+        <option value="foodPreference">Ordenar por menú</option>
+      </select>
+    </div>
+
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Asiste</th>
+            <th>Acompañantes</th>
+            <th>Autobús</th>
+            <th>Alergias</th>
+            <th>Menú</th>
+            <th>Canción</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of filteredResponses()">
+            <td>{{ item.fullName }}</td>
+            <td>{{ labelAttendance(item.attendance) }}</td>
+            <td>{{ item.companionsCount }}<br><small>{{ companionsLabel(item) }}</small></td>
+            <td>{{ item.busOption }}</td>
+            <td>{{ item.allergies || '-' }}</td>
+            <td>{{ item.foodPreference }}</td>
+            <td>{{ item.mustPlaySong || '-' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
