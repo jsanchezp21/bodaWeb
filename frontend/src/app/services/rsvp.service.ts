@@ -18,4 +18,8 @@ export class RsvpService {
   exportUrl(): string {
     return `${environment.apiUrl}/rsvp/export`;
   }
+  
+  deleteRsvp(id: string) {
+  return this.http.delete(`${this.apiUrl}/rsvp/${id}`);
+  }
 }

@@ -32,6 +32,27 @@ export async function exportRsvps(req, res) {
   return res.send(buffer);
 }
 
+export const deleteRsvp = async (req, res) => {
+  try {
+    const deletedRsvp = await Rsvp.findByIdAndDelete(req.params.id);
+
+    if (!deletedRsvp) {
+      return res.status(404).json({
+        message: 'Respuesta no encontrada'
+      });
+    }
+
+    return res.json({
+      message: 'Respuesta eliminada correctamente'
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: 'Error al eliminar la respuesta',
+      error: error.message
+    });
+  }
+};
+
 function normalizeRsvpPayload(body) {
   const companionsCount = Number(body.companionsCount || 0);
   const companions = Array.isArray(body.companions) ? body.companions : [];

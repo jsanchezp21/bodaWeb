@@ -37,6 +37,24 @@ export class AdminPanelComponent {
   load(): void {
     this.rsvpService.list().subscribe({ next: (items) => this.responses.set(items) });
   }
+  
+  deleteRsvp(id: string): void {
+  const confirmed = confirm('¿Seguro que quieres eliminar esta respuesta?');
+
+  if (!confirmed) {
+    return;
+  }
+
+  this.rsvpService.deleteRsvp(id).subscribe({
+    next: () => {
+      this.responses.update((items) => items.filter((item) => item._id !== id));
+    },
+    error: (error) => {
+      console.error(error);
+      alert('No se ha podido eliminar la respuesta.');
+    }
+  });
+}
 
   logout(): void {
     this.authService.logout();
@@ -56,6 +74,8 @@ export class AdminPanelComponent {
         URL.revokeObjectURL(url);
       });
   }
+  
+  
 
   labelAttendance(value: string): string {
     return value === 'yes' ? 'Sí' : 'No';

@@ -193,7 +193,19 @@ h2 { font-size: clamp(2rem, 5vw, 3.3rem); margin: .4rem 0 1rem; font-style: ital
 label, fieldset { display: grid; gap: .45rem; font-weight: 700; }
 fieldset { border: 1px solid var(--line); border-radius: 18px; padding: 1rem; }
 legend { padding: 0 .4rem; color: var(--olive-dark); }
-.radio { display: flex; align-items: center; gap: .6rem; font-weight: 400; }
+.radio {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: flex-start;
+  gap: .7rem;
+  font-weight: 400;
+  line-height: 1.45;
+}
+
+.radio input {
+  width: auto;
+  margin-top: .2rem;
+}
 input, select, textarea {
   width: 100%;
   padding: .9rem 1rem;

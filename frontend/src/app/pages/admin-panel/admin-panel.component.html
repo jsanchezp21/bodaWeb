@@ -33,6 +33,7 @@
             <th>Alergias</th>
             <th>Menú</th>
             <th>Canción</th>
+			<th>Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +45,15 @@
             <td>{{ item.allergies || '-' }}</td>
             <td>{{ item.foodPreference }}</td>
             <td>{{ item.mustPlaySong || '-' }}</td>
+			<td>
+			  <button
+				type="button"
+				class="delete-btn"
+				(click)="deleteRsvp(item._id)"
+			  >
+				Eliminar
+			  </button>
+			</td>
           </tr>
         </tbody>
       </table>
