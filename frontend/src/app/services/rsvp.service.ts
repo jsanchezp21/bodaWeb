@@ -20,6 +20,6 @@ export class RsvpService {
   }
   
   deleteRsvp(id: string) {
-  return this.http.delete(`${this.apiUrl}/rsvp/${id}`);
+  return this.http.delete(`${environment.apiUrl}/rsvp/${id}`);
   }
 }
