@@ -34,7 +34,7 @@ export async function exportRsvps(req, res) {
 
 export const deleteRsvp = async (req, res) => {
   try {
-    const deletedRsvp = await Rsvp.findByIdAndDelete(req.params.id);
+    const deletedRsvp = await GuestResponse.findByIdAndDelete(req.params.id);
 
     if (!deletedRsvp) {
       return res.status(404).json({
