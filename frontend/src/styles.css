@@ -167,7 +167,14 @@ h2 { font-size: clamp(2rem, 5vw, 3.3rem); margin: .4rem 0 1rem; font-style: ital
 .countdown-grid span { color: var(--muted); }
 
 .carousel { position: relative; overflow: hidden; border-radius: 28px; background: var(--sage); }
-.carousel img { width: 100%; height: min(70vh, 660px); object-fit: cover; display: block; }
+.carousel img {
+  width: 100%;
+  height: min(70vh, 660px);
+  object-fit: contain;
+  display: block;
+  background: #f5f1eb;
+}
+
 .carousel-control {
   position: absolute;
   top: 50%;
