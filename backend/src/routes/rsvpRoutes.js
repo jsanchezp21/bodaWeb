@@ -1,12 +1,11 @@
 import { Router } from 'express';
-import { createRsvp, exportRsvps, getRsvps } from '../controllers/rsvpController.js';
-import { requireAuth } from '../middleware/authMiddleware.js';
 import {
   createRsvp,
   exportRsvps,
   getRsvps,
   deleteRsvp
 } from '../controllers/rsvpController.js';
+import { requireAuth } from '../middleware/authMiddleware.js';
 
 const router = Router();
 
