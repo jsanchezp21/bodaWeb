@@ -380,3 +380,29 @@ small { color: var(--muted); }
 .location-card p {
   margin-bottom: 1.5rem;
 }
+
+.admin-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.admin-stats div {
+  background: #f5f1eb;
+  border: 1px solid rgba(97, 112, 84, .18);
+  border-radius: 18px;
+  padding: 1rem;
+  text-align: center;
+}
+
+.admin-stats strong {
+  display: block;
+  font-size: 1.7rem;
+  color: var(--olive-dark);
+}
+
+.admin-stats span {
+  font-size: .9rem;
+  color: #6f6a61;
+}

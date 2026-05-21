@@ -11,6 +11,17 @@
       </div>
     </div>
 
+	<div class="admin-stats">
+	  <div><strong>{{ responses().length }}</strong><span>Total respuestas</span></div>
+	  <div><strong>{{ totalYes() }}</strong><span>Sí asisten</span></div>
+	  <div><strong>{{ totalNo() }}</strong><span>No asisten</span></div>
+	  <div><strong>{{ totalPeopleAttending() }}</strong><span>Personas asistentes</span></div>
+	  <div><strong>{{ busRoundTrip() }}</strong><span>Bus ida y vuelta</span></div>
+	  <div><strong>{{ busOnlyGo() }}</strong><span>Bus solo ida</span></div>
+	  <div><strong>{{ busOnlyReturn() }}</strong><span>Bus solo vuelta</span></div>
+	  <div><strong>{{ busNo() }}</strong><span>Sin autobús</span></div>
+	</div>
+
     <div class="filters">
       <input placeholder="Buscar por nombre, alergia, canción..." [ngModel]="search()" (ngModelChange)="search.set($event)" />
       <select [ngModel]="sortBy()" (ngModelChange)="sortBy.set($event)">
@@ -41,7 +52,7 @@
             <td>{{ item.fullName }}</td>
             <td>{{ labelAttendance(item.attendance) }}</td>
             <td>{{ item.companionsCount }}<br><small>{{ companionsLabel(item) }}</small></td>
-            <td>{{ item.busOption }}</td>
+            <td>{{ labelBusOption(item.busOption) }}</td>
             <td>{{ item.allergies || '-' }}</td>
             <td>{{ item.foodPreference }}</td>
             <td>{{ item.mustPlaySong || '-' }}</td>

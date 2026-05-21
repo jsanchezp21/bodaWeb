@@ -30,6 +30,36 @@ export class AdminPanelComponent {
       .sort((a, b) => String(b[this.sortBy()] ?? '').localeCompare(String(a[this.sortBy()] ?? '')));
   });
 
+  readonly totalYes = computed(() =>
+    this.responses().filter((item) => item.attendance === 'yes').length
+  );
+
+  readonly totalNo = computed(() =>
+    this.responses().filter((item) => item.attendance === 'no').length
+  );
+
+  readonly totalPeopleAttending = computed(() =>
+    this.responses()
+      .filter((item) => item.attendance === 'yes')
+      .reduce((total, item) => total + 1 + Number(item.companionsCount || 0), 0)
+  );
+
+  readonly busRoundTrip = computed(() =>
+    this.responses().filter((item) => item.busOption === 'round_trip').length
+  );
+
+  readonly busOnlyGo = computed(() =>
+    this.responses().filter((item) => item.busOption === 'only_go').length
+  );
+
+  readonly busOnlyReturn = computed(() =>
+    this.responses().filter((item) => item.busOption === 'only_return').length
+  );
+
+  readonly busNo = computed(() =>
+    this.responses().filter((item) => item.busOption === 'no_bus').length
+  );
+
   constructor() {
     this.load();
   }
@@ -37,24 +67,24 @@ export class AdminPanelComponent {
   load(): void {
     this.rsvpService.list().subscribe({ next: (items) => this.responses.set(items) });
   }
-  
+
   deleteRsvp(id: string): void {
-  const confirmed = confirm('¿Seguro que quieres eliminar esta respuesta?');
+    const confirmed = confirm('¿Seguro que quieres eliminar esta respuesta?');
 
-  if (!confirmed) {
-    return;
-  }
-
-  this.rsvpService.deleteRsvp(id).subscribe({
-    next: () => {
-      this.responses.update((items) => items.filter((item) => item._id !== id));
-    },
-    error: (error) => {
-      console.error(error);
-      alert('No se ha podido eliminar la respuesta.');
+    if (!confirmed) {
+      return;
     }
-  });
-}
+
+    this.rsvpService.deleteRsvp(id).subscribe({
+      next: () => {
+        this.responses.update((items) => items.filter((item) => item._id !== id));
+      },
+      error: (error) => {
+        console.error(error);
+        alert('No se ha podido eliminar la respuesta.');
+      }
+    });
+  }
 
   logout(): void {
     this.authService.logout();
@@ -74,11 +104,20 @@ export class AdminPanelComponent {
         URL.revokeObjectURL(url);
       });
   }
-  
-  
 
   labelAttendance(value: string): string {
     return value === 'yes' ? 'Sí' : 'No';
+  }
+
+  labelBusOption(value: string): string {
+    const labels: Record<string, string> = {
+      round_trip: 'Ida y vuelta',
+      only_go: 'Solo ida',
+      only_return: 'Solo vuelta',
+      no_bus: 'No necesito autobús'
+    };
+
+    return labels[value] || value;
   }
 
   companionsLabel(item: RsvpResponse): string {
